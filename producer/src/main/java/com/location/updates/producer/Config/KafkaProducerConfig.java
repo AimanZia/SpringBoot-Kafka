@@ -32,8 +32,10 @@ public class KafkaProducerConfig {
     @Bean
     public ProducerFactory<String,String> exactlyOnceProducerFactory(){
        Map<String,Object> config = baseProducersProp();
-       config.put(ProducerConfig.TRANSACTIONAL_ID_CONFIG, "txn-exactly-once");  // What is use of this
+       //config.put(ProducerConfig.TRANSACTIONAL_ID_CONFIG, "txn-exactly-once");  // t uniquely identifies the producer in Kafka.
+      //Kafka tracks this ID internally to detect uncommitted or unfinished transactions.
        DefaultKafkaProducerFactory<String, String> factory = new DefaultKafkaProducerFactory<>(config);
+       //The transactional.id must be unique per producer instance.
        factory.setTransactionIdPrefix("txn-");
        return factory;
     }

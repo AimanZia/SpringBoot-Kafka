@@ -40,7 +40,7 @@ public class LocationPublisherService {
         }
     }
 
-    public void publishTransaction(DriverTransaction transaction){ // Can we achieve transactional using annotations
+    public void publishTransaction(DriverTransaction transaction){
         String key = transaction.getDriverId();
         String value;
         try {
