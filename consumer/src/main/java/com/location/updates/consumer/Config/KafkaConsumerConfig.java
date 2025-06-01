@@ -47,7 +47,7 @@ public class KafkaConsumerConfig {
         ConcurrentKafkaListenerContainerFactory<String, String> factory =
                 new ConcurrentKafkaListenerContainerFactory<>();
         factory.setConsumerFactory(consumerFactory(props));
-        factory.getContainerProperties().setAckMode(ContainerProperties.AckMode.MANUAL_IMMEDIATE); // What does this mean
+        factory.getContainerProperties().setAckMode(ContainerProperties.AckMode.MANUAL_IMMEDIATE); // explicitly acknowledge each message by calling Acknowledgment.acknowledge().
 
         return factory;
     }
@@ -55,7 +55,7 @@ public class KafkaConsumerConfig {
     @Bean
     public ConcurrentKafkaListenerContainerFactory<String, String> exactlyOnceConsumerFactory() {
         Map<String, Object> props = new HashMap<>(commonConsumerProps());
-        props.put(ConsumerConfig.ENABLE_AUTO_COMMIT_CONFIG, false);   // Check use of this
+        props.put(ConsumerConfig.ENABLE_AUTO_COMMIT_CONFIG, false);   // disables automatic offset commits, meaning you (the developer) are now responsible for committing offsets manually.
         props.put(ConsumerConfig.ISOLATION_LEVEL_CONFIG, "read_committed");
         ConcurrentKafkaListenerContainerFactory<String, String> factory =
                 new ConcurrentKafkaListenerContainerFactory<>();
